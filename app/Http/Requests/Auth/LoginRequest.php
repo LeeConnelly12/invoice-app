@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string,string[]>
      */
     public function rules()
     {
@@ -88,6 +88,7 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey()
     {
+        /** @phpstan-ignore-next-line  */
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
     }
 }
