@@ -26,6 +26,10 @@ Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])
     ->name('invoices.show')
     ->middleware('auth');
 
+Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])
+    ->name('invoices.update')
+    ->middleware('auth');
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),

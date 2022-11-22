@@ -77,11 +77,20 @@ class InvoiceController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        $invoice->update(
+            $request->validate([
+                'client_name' => ['required', 'string', 'max:25'],
+                'client_email' => ['required', 'string', 'email', 'max:50'],
+                'description' => ['required', 'string', 'max:50'],
+                'payment_terms' => ['required', 'integer', 'min:1', 'max:30'],
+            ])
+        );
+
+        return to_route('invoices.show', $invoice);
     }
 
     /**
