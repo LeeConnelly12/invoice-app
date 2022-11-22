@@ -79,3 +79,16 @@ it('can be updated', function () {
     expect($invoice->description)->toBe('updated invoice');
     expect($invoice->payment_terms)->toBe(20);
 });
+
+it('can be deleted', function () {
+    $invoice = Invoice::factory()
+        ->for($this->user)
+        ->create();
+
+    delete('/invoices/'.$invoice->id)
+        ->assertRedirect('/invoices');
+
+    assertDatabaseMissing(Invoice::class, [
+        'id' => $invoice->id,
+    ]);
+});

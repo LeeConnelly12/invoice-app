@@ -34,6 +34,10 @@ Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])
     ->name('invoices.update')
     ->middleware('auth');
 
+Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])
+    ->name('invoices.destroy')
+    ->middleware('auth');
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
