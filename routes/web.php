@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,15 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+/** Invoices */
+Route::post('/invoices', [InvoiceController::class, 'store'])
+    ->name('invoices')
+    ->middleware('auth');
+
+Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])
+    ->name('invoices.show')
+    ->middleware('auth');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
