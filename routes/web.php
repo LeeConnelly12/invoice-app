@@ -18,8 +18,12 @@ use Inertia\Inertia;
 */
 
 /** Invoices */
-Route::post('/invoices', [InvoiceController::class, 'store'])
+Route::get('/invoices', [InvoiceController::class, 'index'])
     ->name('invoices')
+    ->middleware('auth');
+
+Route::post('/invoices', [InvoiceController::class, 'store'])
+    ->name('invoices.store')
     ->middleware('auth');
 
 Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])

@@ -20,7 +20,7 @@ class InvoiceFactory extends Factory
     {
         return [
             'user_id' => ($this->user ?? User::factory()->create()->id),
-            'client_name' => fake()->name(),
+            'client_name' => fake()->text(25),
             'client_email' => fake()->email(),
             'description' => fake()->text(50),
             'payment_terms' => fake()->numberBetween(1, 30),
