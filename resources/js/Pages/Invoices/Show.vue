@@ -1,0 +1,1 @@
+<template>invoice page</template>

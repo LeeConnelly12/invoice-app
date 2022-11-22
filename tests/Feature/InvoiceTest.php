@@ -22,6 +22,18 @@ beforeEach(function () {
     actingAs($this->user);
 });
 
+it('can be created', function () {
+    post('/invoices', [
+        'client_name' => 'john',
+        'client_email' => 'john@example.com',
+        'description' => 'new invoice',
+        'payment_terms' => 30,
+    ])
+        ->assertRedirect('/invoices/1');
+
+    assertDatabaseCount(Invoice::class, 1);
+});
+
 it('can all be viewed', function () {
     $invoices = Invoice::factory()
         ->for($this->user)
@@ -33,25 +45,40 @@ it('can all be viewed', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('Invoices/Index')
             ->has('invoices', 3, fn (Assert $page) => $page
-                ->where('id', $invoices->first()->id)
-                ->where('client_name', $invoices->first()->client_name)
-                ->where('client_email', $invoices->first()->client_email)
-                ->where('description', $invoices->first()->description)
+                ->whereAll(
+                    $invoices->first()->only(
+                        'id',
+                        'client_name',
+                        'client_email',
+                        'description'
+                    )
+                )
                 ->etc()
             )
         );
 });
 
-it('can be created', function () {
-    post('/invoices', [
-        'client_name' => 'john',
-        'client_email' => 'john@example.com',
-        'description' => 'new invoice',
-        'payment_terms' => 30,
-    ])
-    ->assertRedirect('/invoices/1');
+it('can be viewed', function () {
+    $invoice = Invoice::factory()
+        ->for($this->user)
+        ->create();
 
-    assertDatabaseCount(Invoice::class, 1);
+    get('/invoices/'.$invoice->id)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Invoices/Show')
+            ->has('invoice', fn (Assert $page) => $page
+                ->whereAll(
+                    $invoice->only(
+                        'id',
+                        'client_name',
+                        'client_email',
+                        'description'
+                    )
+                )
+                ->etc()
+            )
+        );
 });
 
 it('can be updated', function () {

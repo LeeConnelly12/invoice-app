@@ -63,7 +63,9 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        return inertia('Invoices/Show', [
+            'invoice' => $invoice,
+        ]);
     }
 
     /**
