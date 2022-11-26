@@ -13,7 +13,7 @@ class InvoiceController extends Controller
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
@@ -59,7 +59,7 @@ class InvoiceController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function show(Invoice $invoice)
     {
@@ -104,7 +104,7 @@ class InvoiceController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Invoice $invoice)
     {
