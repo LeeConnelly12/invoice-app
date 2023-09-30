@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,22 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/invoices', [InvoiceController::class, 'index'])
+    ->name('invoices')
+    ->middleware('auth');
+
+Route::post('/invoices', [InvoiceController::class, 'store'])
+    ->name('invoices.store')
+    ->middleware('auth');
+
+Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])
+    ->name('invoices.update')
+    ->middleware('auth');
+
+Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])
+    ->name('invoices.destroy')
+    ->middleware('auth');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
