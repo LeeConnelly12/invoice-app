@@ -11,6 +11,10 @@ class Invoice extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $dispatchesEvents = [
+        'creating' => \App\Events\InvoiceCreating::class,
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);

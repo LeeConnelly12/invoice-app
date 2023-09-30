@@ -33,6 +33,14 @@ it('can create invoices', function () {
     ]);
 });
 
+it('creating an invoice generates an ID', function () {
+    $invoice = Invoice::factory()->create();
+
+    expect($invoice->invoice_id)
+        ->toBeString()
+        ->toHaveLength(5);
+});
+
 it('can update invoices', function () {
     $invoice = Invoice::factory()->for($this->user)->create([
         'client_name' => 'John',
