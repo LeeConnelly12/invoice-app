@@ -25,13 +25,32 @@ it('can view invoices', function () {
 
 it('can create invoices', function () {
     post('/invoices', [
-         'status' => InvoiceStatus::PENDING->value,
+        'status' => InvoiceStatus::PENDING->value,
+        'address' => '19 Union Terrace',
+        'city' => 'London',
+        'postcode' => 'E1 3EZ',
+        'country' => 'United Kingdom',
         'client_name' => 'John',
+        'client_email' => 'johndoe@test.com',
+        'client_address' => '84 Church Way',
+        'client_city' => 'Bradford',
+        'client_postcode' => 'BD1 9PB',
+        'client_country' => 'United Kingdom',
         'items' => [],
     ])->assertRedirect();
 
     assertDatabaseHas(Invoice::class, [
+        'status' => InvoiceStatus::PENDING->value,
+        'address' => '19 Union Terrace',
+        'city' => 'London',
+        'postcode' => 'E1 3EZ',
+        'country' => 'United Kingdom',
         'client_name' => 'John',
+        'client_email' => 'johndoe@test.com',
+        'client_address' => '84 Church Way',
+        'client_city' => 'Bradford',
+        'client_postcode' => 'BD1 9PB',
+        'client_country' => 'United Kingdom',
     ]);
 });
 

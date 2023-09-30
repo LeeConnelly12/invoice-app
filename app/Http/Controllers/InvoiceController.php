@@ -29,8 +29,62 @@ class InvoiceController extends Controller
     {
         $request->validate([
             'status' => ['required', new Enum(InvoiceStatus::class)],
+            'address' => [
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'city' => [
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:25',
+            ],
+            'postcode' => [
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:25',
+            ],
+            'country' => [
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:25',
+            ],
             'client_name' => [
-                Rule::requiredIf($request->status !== InvoiceStatus::DRAFT->value),
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:25',
+            ],
+            'client_email' => [
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'client_address' => [
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'client_city' => [
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:25',
+            ],
+            'client_postcode' => [
+                'required_unless:status,0',
+                'nullable',
+                'string',
+                'max:25',
+            ],
+            'client_country' => [
+                'required_unless:status,0',
                 'nullable',
                 'string',
                 'max:25',
@@ -41,10 +95,21 @@ class InvoiceController extends Controller
             'items.*.price' => ['numeric', 'integer', 'min:0', 'max:100000'],
         ]);
 
-        $invoice = $request->user()->invoices()->create([
-            'status' => $request->status,
-            'client_name' => $request->client_name,
-        ]);
+        $invoice = $request->user()->invoices()->create(
+            $request->only([
+                'status',
+                'address',
+                'city',
+                'postcode',
+                'country',
+                'client_name',
+                'client_email',
+                'client_address',
+                'client_city',
+                'client_postcode',
+                'client_country',
+            ])
+        );
 
         $invoice->items()->createMany($request->items);
 

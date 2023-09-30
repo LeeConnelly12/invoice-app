@@ -17,7 +17,16 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('invoice_id', 6)->unique();
             $table->unsignedTinyInteger('status');
+            $table->string('address', 50)->nullable();
+            $table->string('city', 25)->nullable();
+            $table->string('postcode', 25)->nullable();
+            $table->string('country', 25)->nullable();
             $table->string('client_name', 25)->nullable();
+            $table->string('client_email', 50)->nullable();
+            $table->string('client_address', 50)->nullable();
+            $table->string('client_city', 25)->nullable();
+            $table->string('client_postcode', 25)->nullable();
+            $table->string('client_country', 25)->nullable();
             $table->timestamps();
         });
     }
