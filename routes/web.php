@@ -36,11 +36,11 @@ Route::post('/invoices', [InvoiceController::class, 'store'])
 
 Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])
     ->name('invoices.update')
-    ->middleware('auth');
+    ->can('update', 'invoice');
 
 Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])
     ->name('invoices.destroy')
-    ->middleware('auth');
+    ->can('delete', 'invoice');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -47,6 +47,14 @@ it('can update invoices', function () {
     ]);
 });
 
+it('cannot update other user invoices', function () {
+    $invoice = Invoice::factory()->create();
+
+    put('/invoices/' . $invoice->id, [
+        'client_name' => 'Jane',
+    ])->assertForbidden();
+});
+
 it('can delete invoices', function () {
     $invoice = Invoice::factory()->for($this->user)->create();
 
@@ -56,4 +64,12 @@ it('can delete invoices', function () {
     assertDatabaseMissing(Invoice::class, [
         'id' => $invoice->id,
     ]);
+});
+
+it('cannot delete other user invoices', function () {
+    $invoice = Invoice::factory()->create();
+
+    delete('/invoices/' . $invoice->id, [
+        'client_name' => 'Jane',
+    ])->assertForbidden();
 });
