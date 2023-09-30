@@ -2,10 +2,9 @@
 
 use App\Models\User;
 use App\Models\Invoice;
-use function Pest\Laravel\{actingAs, get, post, put, delete};
+use App\Enums\InvoiceStatus;
 use Inertia\Testing\AssertableInertia as Assert;
-use function Pest\Laravel\assertDatabaseHas;
-use function Pest\Laravel\assertDatabaseMissing;
+use function Pest\Laravel\{actingAs, assertDatabaseHas, assertDatabaseMissing, get, post, put, delete};
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -33,7 +32,18 @@ it('can create invoices', function () {
     ]);
 });
 
-it('creating an invoice generates an ID', function () {
+it('can create draft invoices', function () {
+    post('/invoices', [
+        'client_name' => null,
+        'status' => InvoiceStatus::DRAFT->value,
+    ]);
+
+    assertDatabaseHas(Invoice::class, [
+        'status' => InvoiceStatus::DRAFT->value,
+    ]);
+});
+
+it('generates an ID when creating an invoice', function () {
     $invoice = Invoice::factory()->create();
 
     expect($invoice->invoice_id)

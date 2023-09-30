@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class InvoiceController extends Controller
 {
@@ -25,10 +28,17 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'client_name' => ['required', 'string', 'max:25'],
+            'status' => ['required', new Enum(InvoiceStatus::class)],
+            'client_name' => [
+                Rule::requiredIf($request->status !== InvoiceStatus::DRAFT->value),
+                'nullable',
+                'string',
+                'max:25',
+            ],
         ]);
 
         $request->user()->invoices()->create([
+            'status' => $request->status,
             'client_name' => $request->client_name,
         ]);
 
