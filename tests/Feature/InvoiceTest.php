@@ -25,17 +25,19 @@ it('can view invoices', function () {
 
 it('can create invoices', function () {
     post('/invoices', [
-        'status' => InvoiceStatus::PENDING->value,
-        'address' => '19 Union Terrace',
-        'city' => 'London',
-        'postcode' => 'E1 3EZ',
-        'country' => 'United Kingdom',
-        'client_name' => 'John',
-        'client_email' => 'johndoe@test.com',
-        'client_address' => '84 Church Way',
-        'client_city' => 'Bradford',
-        'client_postcode' => 'BD1 9PB',
-        'client_country' => 'United Kingdom',
+        'invoice' => [
+            'status' => InvoiceStatus::PENDING->value,
+            'address' => '19 Union Terrace',
+            'city' => 'London',
+            'postcode' => 'E1 3EZ',
+            'country' => 'United Kingdom',
+            'client_name' => 'John',
+            'client_email' => 'johndoe@test.com',
+            'client_address' => '19 Union Terrace',
+            'client_city' => 'London',
+            'client_postcode' => 'E1 3EZ',
+            'client_country' => 'United Kingdom',
+        ],
         'items' => [],
     ])->assertRedirect();
 
@@ -47,19 +49,19 @@ it('can create invoices', function () {
         'country' => 'United Kingdom',
         'client_name' => 'John',
         'client_email' => 'johndoe@test.com',
-        'client_address' => '84 Church Way',
-        'client_city' => 'Bradford',
-        'client_postcode' => 'BD1 9PB',
+        'client_address' => '19 Union Terrace',
+        'client_city' => 'London',
+        'client_postcode' => 'E1 3EZ',
         'client_country' => 'United Kingdom',
     ]);
 });
 
 it('can create draft invoices', function () {
     post('/invoices', [
-        'status' => InvoiceStatus::DRAFT->value,
-        'client_name' => null,
-        'items' => [],
-    ]);
+        'invoice' => [
+            'status' => InvoiceStatus::DRAFT->value,
+        ],
+    ])->assertRedirect();
 
     assertDatabaseHas(Invoice::class, [
         'status' => InvoiceStatus::DRAFT->value,
@@ -76,8 +78,10 @@ it('generates an ID when creating an invoice', function () {
 
 it('can add items to invoice', function () {
     post('/invoices', [
-        'status' => InvoiceStatus::DRAFT->value,
-        'client_name' => 'John',
+        'invoice' => [
+            'status' => InvoiceStatus::DRAFT->value,
+            ...Invoice::factory()->raw(),
+        ],
         'items' => [
             [
                 'name' => 'Banner Design',
@@ -113,7 +117,11 @@ it('can update invoices', function () {
     ]);
 
     put('/invoices/' . $invoice->id, [
-        'client_name' => 'Jane',
+        'invoice' => [
+            ...$invoice->getRawOriginal(),
+            'status' => InvoiceStatus::PENDING->value,
+            'client_name' => 'Jane',
+        ],
     ])->assertRedirect();
 
     assertDatabaseHas(Invoice::class, [
