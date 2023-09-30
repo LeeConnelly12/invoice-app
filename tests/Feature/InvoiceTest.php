@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Enums\InvoiceStatus;
 use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\{actingAs, assertDatabaseHas, assertDatabaseMissing, get, post, put, delete};
@@ -24,7 +25,9 @@ it('can view invoices', function () {
 
 it('can create invoices', function () {
     post('/invoices', [
+         'status' => InvoiceStatus::PENDING->value,
         'client_name' => 'John',
+        'items' => [],
     ])->assertRedirect();
 
     assertDatabaseHas(Invoice::class, [
@@ -34,8 +37,9 @@ it('can create invoices', function () {
 
 it('can create draft invoices', function () {
     post('/invoices', [
-        'client_name' => null,
         'status' => InvoiceStatus::DRAFT->value,
+        'client_name' => null,
+        'items' => [],
     ]);
 
     assertDatabaseHas(Invoice::class, [
@@ -49,6 +53,39 @@ it('generates an ID when creating an invoice', function () {
     expect($invoice->invoice_id)
         ->toBeString()
         ->toHaveLength(5);
+});
+
+it('can add items to invoice', function () {
+    post('/invoices', [
+        'status' => InvoiceStatus::DRAFT->value,
+        'client_name' => 'John',
+        'items' => [
+            [
+                'name' => 'Banner Design',
+                'quantity' => 1,
+                'price' => 15600,
+            ],
+            [
+                'name' => 'Email Design',
+                'quantity' => 2,
+                'price' => 20000,
+            ],
+        ],
+    ])->assertRedirect();
+
+    assertDatabaseHas(InvoiceItem::class, [
+        'name' => 'Banner Design',
+        'quantity' => 1,
+        'price' => 156,
+        'total' => 156,
+    ]);
+
+    assertDatabaseHas(InvoiceItem::class, [
+        'name' => 'Email Design',
+        'quantity' => 2,
+        'price' => 200,
+        'total' => 400,
+    ]);
 });
 
 it('can update invoices', function () {

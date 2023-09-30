@@ -35,12 +35,18 @@ class InvoiceController extends Controller
                 'string',
                 'max:25',
             ],
+            'items' => ['array'],
+            'items.*.name' => ['string', 'max:25'],
+            'items.*.quantity' => ['numeric', 'integer', 'min:1', 'max:255'],
+            'items.*.price' => ['numeric', 'integer', 'min:0', 'max:100000'],
         ]);
 
-        $request->user()->invoices()->create([
+        $invoice = $request->user()->invoices()->create([
             'status' => $request->status,
             'client_name' => $request->client_name,
         ]);
+
+        $invoice->items()->createMany($request->items);
 
         return back();
     }

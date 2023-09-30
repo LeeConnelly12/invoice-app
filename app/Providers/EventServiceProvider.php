@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\InvoiceCreating;
+use App\Events\InvoiceItemCreating;
+use App\Listeners\CalculateInvoiceItemTotal;
 use App\Listeners\GenerateInvoiceID;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -18,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         InvoiceCreating::class => [
             GenerateInvoiceID::class,
         ],
+        InvoiceItemCreating::class => [
+            CalculateInvoiceItemTotal::class,
+        ]
     ];
 
     /**

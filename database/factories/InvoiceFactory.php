@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\InvoiceStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,7 @@ class InvoiceFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'status' => fake()->randomElement(InvoiceStatus::class),
             'client_name' => fake()->text(25),
         ];
     }
