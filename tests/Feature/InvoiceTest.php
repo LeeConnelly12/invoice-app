@@ -22,7 +22,7 @@ beforeEach(function () {
 it('can view invoices', function () {
     Invoice::factory()->for($this->user)->count(3)->create();
 
-    get('/invoices')
+    get('/')
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('Invoices/Index')
