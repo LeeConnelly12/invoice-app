@@ -13,7 +13,9 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $invoices = $request->User()->invoices()->get();
+        $invoices = $request->user()->invoices()
+            ->filter($request->only('status'))
+            ->get();
 
         return inertia('Invoices', [
             'invoices' => $invoices,

@@ -30,6 +30,23 @@ it('can view invoices', function () {
         );
 });
 
+it('can filter invoices', function () {
+    Invoice::factory()->for($this->user)->create([
+        'status' => InvoiceStatus::PENDING->value,
+    ]);
+
+    Invoice::factory()->for($this->user)->create([
+        'status' => InvoiceStatus::PAID->value,
+    ]);
+
+    get('/?status=' . InvoiceStatus::PENDING->value)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Invoices')
+            ->has('invoices', 1)
+        );
+});
+
 it('can create invoices', function () {
     post('/invoices', [
         'invoice' => [
