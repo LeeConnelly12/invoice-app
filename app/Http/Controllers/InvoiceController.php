@@ -41,6 +41,10 @@ class InvoiceController extends Controller
     {
         $invoice->update($request->validated('invoice'));
 
+        $invoice->items()->delete();
+
+        $invoice->items()->createMany($request->validated('items', []));
+
         return back();
     }
 

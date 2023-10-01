@@ -129,6 +129,37 @@ it('can update invoices', function () {
     ]);
 });
 
+it('can update invoice items', function () {
+    $invoice = Invoice::factory()->for($this->user)->create();
+
+    InvoiceItem::factory()->for($invoice)->create([
+        'name' => 'Email design',
+        'quantity' => 2,
+        'price' => 20000,
+    ]);
+
+    put('/invoices/' . $invoice->id, [
+        'invoice' => [
+            ...$invoice->getRawOriginal(),
+            'status' => InvoiceStatus::PENDING->value,
+        ],
+        'items' => [
+            [
+                'name' => 'Banner Design',
+                'quantity' => 1,
+                'price' => 15600,
+            ],
+        ],
+    ])->assertRedirect();
+
+    assertDatabaseHas(InvoiceItem::class, [
+        'name' => 'Banner Design',
+        'quantity' => 1,
+        'price' => 156,
+        'total' => 156,
+    ]);
+});
+
 it('cannot update other user invoices', function () {
     $invoice = Invoice::factory()->create();
 
