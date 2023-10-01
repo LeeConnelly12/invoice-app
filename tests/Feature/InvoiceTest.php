@@ -25,7 +25,7 @@ it('can view invoices', function () {
     get('/')
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('Invoices/Index')
+            ->component('Invoices')
             ->has('invoices', 3)
         );
 });

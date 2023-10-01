@@ -15,7 +15,7 @@ class InvoiceController extends Controller
     {
         $invoices = $request->User()->invoices()->get();
 
-        return inertia('Invoices/Index', [
+        return inertia('Invoices', [
             'invoices' => $invoices,
         ]);
     }
