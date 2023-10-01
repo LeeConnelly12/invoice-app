@@ -1,11 +1,18 @@
 <?php
 
-use App\Models\User;
+use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Enums\InvoiceStatus;
+use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
-use function Pest\Laravel\{actingAs, assertDatabaseHas, assertDatabaseMissing, get, post, put, delete};
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertDatabaseMissing;
+use function Pest\Laravel\delete;
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
+use function Pest\Laravel\put;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -116,7 +123,7 @@ it('can update invoices', function () {
         'client_name' => 'John',
     ]);
 
-    put('/invoices/' . $invoice->id, [
+    put('/invoices/'.$invoice->id, [
         'invoice' => [
             ...$invoice->getRawOriginal(),
             'status' => InvoiceStatus::PENDING->value,
@@ -138,7 +145,7 @@ it('can update invoice items', function () {
         'price' => 20000,
     ]);
 
-    put('/invoices/' . $invoice->id, [
+    put('/invoices/'.$invoice->id, [
         'invoice' => [
             ...$invoice->getRawOriginal(),
             'status' => InvoiceStatus::PENDING->value,
@@ -163,7 +170,7 @@ it('can update invoice items', function () {
 it('cannot update other user invoices', function () {
     $invoice = Invoice::factory()->create();
 
-    put('/invoices/' . $invoice->id, [
+    put('/invoices/'.$invoice->id, [
         'client_name' => 'Jane',
     ])->assertForbidden();
 });
@@ -171,7 +178,7 @@ it('cannot update other user invoices', function () {
 it('can delete invoices', function () {
     $invoice = Invoice::factory()->for($this->user)->create();
 
-    delete('/invoices/' . $invoice->id)
+    delete('/invoices/'.$invoice->id)
         ->assertRedirect();
 
     assertDatabaseMissing(Invoice::class, [
@@ -182,7 +189,7 @@ it('can delete invoices', function () {
 it('cannot delete other user invoices', function () {
     $invoice = Invoice::factory()->create();
 
-    delete('/invoices/' . $invoice->id, [
+    delete('/invoices/'.$invoice->id, [
         'client_name' => 'Jane',
     ])->assertForbidden();
 });

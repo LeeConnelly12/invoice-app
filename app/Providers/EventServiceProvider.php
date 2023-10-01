@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         InvoiceItemCreating::class => [
             CalculateInvoiceItemTotal::class,
-        ]
+        ],
     ];
 
     /**

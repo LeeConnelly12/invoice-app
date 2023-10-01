@@ -14,5 +14,6 @@ class InvoiceCreating
      */
     public function __construct(
         public Invoice $invoice
-    ) {}
+    ) {
+    }
 }

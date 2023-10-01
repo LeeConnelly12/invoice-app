@@ -14,5 +14,6 @@ class InvoiceItemCreating
      */
     public function __construct(
         public InvoiceItem $invoiceItem
-    ) {}
+    ) {
+    }
 }
