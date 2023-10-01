@@ -1,7 +1,12 @@
-<script setup></script>
+<script setup>
+import Nav from '@/Components/Nav.vue'
+</script>
 
 <template>
-    <main>
-        <slot />
-    </main>
+    <div class="min-h-screen grid grid-rows-[auto_1fr]">
+        <Nav />
+        <main>
+            <slot />
+        </main>
+    </div>
 </template>

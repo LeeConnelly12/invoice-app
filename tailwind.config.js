@@ -17,6 +17,7 @@ export default {
             },
             colors: {
                 'light-gray': '#F8F8FB',
+                'dark-gray': '#494E6E',
                 'border-gray': '#DFE3FA',
                 'light-purple': '#7E88C3',
                 'purple': '#7C5DFA',
