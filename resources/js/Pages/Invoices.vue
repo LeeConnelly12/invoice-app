@@ -25,13 +25,13 @@ const form = useForm({
                 <p class="text-light-blue text-sm">No invoices</p>
             </div>
 
-            <form class="relative">
+            <div class="relative">
                 <InvoiceFilter
                     v-model="form.status"
                     label="Filter"
                     @update:model-value="form.get('/')"
                 />
-            </form>
+            </div>
 
             <AddButton>New</AddButton>
         </div>
