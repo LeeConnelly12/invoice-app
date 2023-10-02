@@ -61,8 +61,8 @@ it('can create invoices', function () {
             'client_city' => 'London',
             'client_postcode' => 'E1 3EZ',
             'client_country' => 'United Kingdom',
+            'items' => [],
         ],
-        'items' => [],
     ])->assertRedirect();
 
     assertDatabaseHas(Invoice::class, [
@@ -105,17 +105,17 @@ it('can add items to invoice', function () {
         'invoice' => [
             'status' => InvoiceStatus::DRAFT->value,
             ...Invoice::factory()->raw(),
-        ],
-        'items' => [
-            [
-                'name' => 'Banner Design',
-                'quantity' => 1,
-                'price' => 15600,
-            ],
-            [
-                'name' => 'Email Design',
-                'quantity' => 2,
-                'price' => 20000,
+            'items' => [
+                [
+                    'name' => 'Banner Design',
+                    'quantity' => 1,
+                    'price' => 15600,
+                ],
+                [
+                    'name' => 'Email Design',
+                    'quantity' => 2,
+                    'price' => 20000,
+                ],
             ],
         ],
     ])->assertRedirect();
@@ -166,12 +166,12 @@ it('can update invoice items', function () {
         'invoice' => [
             ...$invoice->getRawOriginal(),
             'status' => InvoiceStatus::PENDING->value,
-        ],
-        'items' => [
-            [
-                'name' => 'Banner Design',
-                'quantity' => 1,
-                'price' => 15600,
+            'items' => [
+                [
+                    'name' => 'Banner Design',
+                    'quantity' => 1,
+                    'price' => 15600,
+                ],
             ],
         ],
     ])->assertRedirect();

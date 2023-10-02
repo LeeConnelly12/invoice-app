@@ -85,15 +85,15 @@ class InvoiceRequest extends FormRequest
                 'string',
                 'max:25',
             ],
-            'items' => ['array'],
-            'items.*.name' => ['string', 'max:25'],
-            'items.*.quantity' => [
+            'invoice.items' => ['array'],
+            'invoice.items.*.name' => ['string', 'max:25'],
+            'invoice.items.*.quantity' => [
                 'numeric',
                 'integer',
                 'min:1',
                 'max:255',
             ],
-            'items.*.price' => [
+            'invoice.items.*.price' => [
                 'numeric',
                 'integer',
                 'min:0',

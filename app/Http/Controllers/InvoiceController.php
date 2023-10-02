@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\InvoiceRequest;
 use App\Models\Invoice;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Http\Requests\InvoiceRequest;
 
 class InvoiceController extends Controller
 {
@@ -29,9 +30,11 @@ class InvoiceController extends Controller
     {
         $invoice = $request->user()
             ->invoices()
-            ->create($request->validated('invoice'));
+            ->create(
+                Arr::except($request->validated('invoice'), 'items')
+            );
 
-        $invoice->items()->createMany($request->validated('items', []));
+        $invoice->items()->createMany($request->validated('invoice.items', []));
 
         return back();
     }
@@ -41,11 +44,13 @@ class InvoiceController extends Controller
      */
     public function update(InvoiceRequest $request, Invoice $invoice)
     {
-        $invoice->update($request->validated('invoice'));
+        $invoice->update(
+            Arr::except($request->validated('invoice'), 'items')
+        );
 
         $invoice->items()->delete();
 
-        $invoice->items()->createMany($request->validated('items', []));
+        $invoice->items()->createMany($request->validated('invoice.items', []));
 
         return back();
     }
