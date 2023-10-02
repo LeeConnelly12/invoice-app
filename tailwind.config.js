@@ -16,10 +16,11 @@ export default {
                 sans: ['League Spartan', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                'light-gray': '#F8F8FB',
+                'gray': '#777F98',
+                'light-gray': '#F9FAFE',
+                'lighter-gray': '#F8F8FB',
                 'dark-gray': '#494E6E',
                 'border-gray': '#DFE3FA',
-                'light-purple': '#7E88C3',
                 'purple': '#7C5DFA',
                 'black': '#0C0E16',
                 'blue': '#373B53',
