@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\InvoiceResource;
 use App\Models\Invoice;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -15,11 +16,12 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $invoices = $request->user()->invoices()
+            ->with('items')
             ->filter($request->only('status'))
             ->get();
 
         return inertia('Invoices', [
-            'invoices' => $invoices,
+            'invoices' => InvoiceResource::collection($invoices),
         ]);
     }
 

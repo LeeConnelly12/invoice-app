@@ -2,15 +2,32 @@
 import Layout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head, useForm } from '@inertiajs/vue3'
 import AddButton from '@/Components/AddButton.vue'
+import Invoice from '@/Components/Invoice.vue'
 import InvoiceFilter from '@/Components/InvoiceFilter.vue'
 import Empty from '@/Components/SVG/Empty.vue'
+import { inject } from 'vue'
+import { computed } from 'vue'
 
-defineProps({
+const props = defineProps({
     invoices: Array,
 })
 
+const emitter = inject('emitter')
+
 const form = useForm({
     status: null,
+})
+
+const invoiceCount = computed(() => {
+    if (props.invoices.length === 0) {
+        return 'No invoices'
+    }
+
+    if (props.invoices.length === 1) {
+        return '1 invoice'
+    }
+
+    return props.invoices.length + ' invoices'
 })
 </script>
 
@@ -22,7 +39,9 @@ const form = useForm({
         >
             <div>
                 <h1 class="text-2xl font-bold leading-none">Invoices</h1>
-                <p class="text-light-blue text-sm">No invoices</p>
+                <p class="text-light-blue text-sm">
+                    {{ invoiceCount }}
+                </p>
             </div>
 
             <div class="relative">
@@ -33,22 +52,15 @@ const form = useForm({
                 />
             </div>
 
-            <AddButton>New</AddButton>
+            <AddButton @click="emitter.emit('open')">New</AddButton>
         </div>
 
-        <div v-if="invoices.length > 0" class="grid gap-4">
-            <button
+        <div v-if="invoices.length > 0" class="grid gap-4 px-6 pt-8">
+            <Invoice
                 v-for="invoice in invoices"
                 :key="invoice.id"
-                type="button"
-                class="bg-white rounded-lg p-6 grid-cols-2 grid-rows-3"
-            >
-                <p>{{ invoice.invoice_id }}</p>
-                <p>{{ invoice.client_name }}</p>
-                <p>Due 19 Aug 2021</p>
-                <div>{{ invoice.status }}</div>
-                <p>$1,800.90</p>
-            </button>
+                :invoice="invoice"
+            />
         </div>
 
         <div v-else class="grid place-items-center text-center pt-24">
