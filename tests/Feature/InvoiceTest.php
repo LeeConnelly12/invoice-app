@@ -97,7 +97,7 @@ it('generates an ID when creating an invoice', function () {
 
     expect($invoice->invoice_id)
         ->toBeString()
-        ->toHaveLength(5);
+        ->toHaveLength(6);
 });
 
 it('can add items to invoice', function () {
