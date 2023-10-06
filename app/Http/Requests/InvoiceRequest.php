@@ -100,7 +100,6 @@ class InvoiceRequest extends FormRequest
             ],
             'invoice.items.*.price' => [
                 'numeric',
-                'integer',
                 'min:0',
                 'max:100000',
             ],
