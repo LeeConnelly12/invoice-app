@@ -40,8 +40,8 @@ class Invoice extends Model
 
     public function scopeFilter(Builder $query, array $filters)
     {
-        $query->when($filters['status'] ?? null, function (Builder $query, int $status) {
-            $query->where('status', $status);
+        $query->when(isset($filters['status']), function (Builder $query) use ($filters) {
+            $query->where('status', $filters['status']);
         });
     }
 }
