@@ -24,6 +24,7 @@ class InvoiceItem extends Model
     protected function price(): Attribute
     {
         return Attribute::make(
+            get: fn (int $value) => $value * 100,
             set: fn (int $value) => $value / 100,
         );
     }
