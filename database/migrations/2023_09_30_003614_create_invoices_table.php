@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('client_city', 25)->nullable();
             $table->string('client_postcode', 25)->nullable();
             $table->string('client_country', 25)->nullable();
+            $table->timestamp('invoice_date')->nullable();
             $table->timestamps();
         });
     }

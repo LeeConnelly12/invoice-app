@@ -25,6 +25,7 @@ class Invoice extends Model
      */
     protected $casts = [
         'status' => InvoiceStatus::class,
+        'invoice_date' => 'date',
     ];
 
     public function user(): BelongsTo

@@ -207,7 +207,7 @@ watch(
                     <InputLabel for="invoice_date" value="Invoice Date" />
                     <TextInput
                         id="invoice_date"
-                        type="text"
+                        type="date"
                         class="mt-1 block w-full"
                         v-model="form.invoice.invoice_date"
                     />

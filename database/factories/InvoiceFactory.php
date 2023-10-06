@@ -31,6 +31,7 @@ class InvoiceFactory extends Factory
             'client_city' => fake()->city(),
             'client_postcode' => fake()->postcode(),
             'client_country' => fake()->text(25),
+            'invoice_date' => fake()->date(),
         ];
     }
 }

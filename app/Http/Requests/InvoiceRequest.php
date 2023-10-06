@@ -85,6 +85,11 @@ class InvoiceRequest extends FormRequest
                 'string',
                 'max:25',
             ],
+            'invoice.invoice_date' => [
+                'required_unless:invoice.status,0',
+                'nullable',
+                'date',
+            ],
             'invoice.items' => ['array'],
             'invoice.items.*.name' => ['string', 'max:25'],
             'invoice.items.*.quantity' => [

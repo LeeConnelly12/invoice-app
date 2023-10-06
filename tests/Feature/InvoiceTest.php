@@ -61,6 +61,7 @@ it('can create invoices', function () {
             'client_city' => 'London',
             'client_postcode' => 'E1 3EZ',
             'client_country' => 'United Kingdom',
+            'invoice_date' => today(),
             'items' => [],
         ],
     ])->assertRedirect();
@@ -77,6 +78,7 @@ it('can create invoices', function () {
         'client_city' => 'London',
         'client_postcode' => 'E1 3EZ',
         'client_country' => 'United Kingdom',
+        'invoice_date' => today(),
     ]);
 });
 

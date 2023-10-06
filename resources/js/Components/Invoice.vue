@@ -19,9 +19,9 @@ const statusText = (status) => {
 
 const statusColor = (status) => {
     const colors = {
-        0: 'bg-green/10 text-green',
+        0: 'bg-blue/10 text-blue',
         1: 'bg-orange/10 text-orange',
-        2: 'bg-blue/10 text-blue',
+        2: 'bg-green/10 text-green',
     }
 
     return colors[status]
