@@ -23,6 +23,9 @@ defineEmits(['update:modelValue'])
         v-on-click-outside="() => (open = false)"
         class="absolute top-full right-0 bg-white rounded-md shadow-md pl-4 pr-6 pt-3 pb-3 mt-1 justify-items-start grid gap-1"
     >
+        <button @click="$emit('update:modelValue', null)" type="button">
+            Any
+        </button>
         <button @click="$emit('update:modelValue', 2)" type="button">
             Paid
         </button>
