@@ -20,6 +20,8 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@vueuse/components": "^10.4.1",
+        "@vueuse/core": "^10.4.1",
         "mitt": "^3.0.1"
     }
 }

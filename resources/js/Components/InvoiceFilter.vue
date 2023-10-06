@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { vOnClickOutside } from '@vueuse/components'
 import Chevron from '@/Components/SVG/Chevron.vue'
 
 const open = ref(false)
@@ -8,6 +9,8 @@ defineProps({
     modelValue: String,
     label: String,
 })
+
+const ignoreElement = ref(null)
 
 defineEmits(['update:modelValue'])
 </script>
@@ -19,7 +22,9 @@ defineEmits(['update:modelValue'])
     </button>
     <div
         v-if="open"
+        v-on-click-outside="() => (open = false)"
         class="absolute top-full right-0 bg-white rounded-md shadow-md pl-4 pr-6 pt-3 pb-3 mt-1 justify-items-start grid gap-1"
+        ref="ignoreElement"
     >
         <button @click="$emit('update:modelValue', 2)" type="button">
             Paid
