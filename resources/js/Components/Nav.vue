@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/vue3'
 
 <template>
     <nav
-        class="bg-blue h-[4.5rem] sm:h-20 grid grid-cols-[auto_1fr_auto_auto] items-center"
+        class="bg-blue h-[4.5rem] sm:h-20 grid grid-cols-[auto_1fr_auto_auto] items-center fixed left-0 right-0 top-0"
     >
         <Link href="/">
             <Logo />

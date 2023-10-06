@@ -25,7 +25,7 @@ emitter.on('close', () => {
 </script>
 
 <template>
-    <div class="min-h-screen grid grid-rows-[auto_1fr]">
+    <div class="min-h-screen pt-[4.5rem] sm:pt-20">
         <Nav />
         <main>
             <slot />
