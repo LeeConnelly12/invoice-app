@@ -275,7 +275,7 @@ watch(
                         />
                         <TextInput
                             :id="`quantity${index}`"
-                            type="text"
+                            type="number"
                             class="mt-1 block w-full"
                             v-model="form.invoice.items[index].quantity"
                         />
@@ -290,7 +290,8 @@ watch(
                         <InputLabel :for="`price${index}`" value="Price" />
                         <TextInput
                             :id="`price${index}`"
-                            type="text"
+                            type="number"
+                            step="0.01"
                             class="mt-1 block w-full"
                             v-model="form.invoice.items[index].price"
                         />
