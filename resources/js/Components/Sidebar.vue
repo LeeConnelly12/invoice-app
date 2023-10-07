@@ -1,12 +1,11 @@
 <script setup>
-import { inject } from 'vue'
+import { inject, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import Chevron from '@/Components/SVG/Chevron.vue'
 import Delete from '@/Components/SVG/Delete.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import TextInput from '@/Components/TextInput.vue'
 import InputError from '@/Components/InputError.vue'
-import { watch } from 'vue'
 
 const props = defineProps({
     open: {
@@ -23,9 +22,15 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.post('/invoices', {
-        onSuccess: () => emitter.emit('close'),
-    })
+    if (form.invoice.id) {
+        form.put(`/invoices/${form.invoice.id}`, {
+            onSuccess: () => emitter.emit('close'),
+        })
+    } else {
+        form.post('/invoices', {
+            onSuccess: () => emitter.emit('close'),
+        })
+    }
 }
 
 const addItem = () => {
@@ -44,7 +49,6 @@ watch(
     () => props.invoice,
     (value) => {
         form.invoice = value ?? {
-            status: 0,
             items: [],
         }
     },
@@ -59,13 +63,21 @@ watch(
         <button
             @click="emitter.emit('close')"
             type="button"
-            class="flex gap-4 items-center pl-6 font-bold"
+            class="flex gap-4 items-center ml-6 font-bold"
         >
             <Chevron class="transform rotate-90" />
             <p>Go back</p>
         </button>
+
         <form @submit.prevent="submit" class="pt-6 px-6 relative">
-            <h2 class="font-bold text-2xl">New Invoice</h2>
+            <h2 class="font-bold text-2xl">
+                <template v-if="form.invoice.invoice_id">
+                    Edit
+                    <span class="text-light-blue">#</span
+                    >{{ form.invoice.invoice_id }}
+                </template>
+                <template v-else>New Invoice</template>
+            </h2>
             <p class="text-purple pt-4 font-bold col-span-full">Bill From</p>
             <div class="grid grid-cols-2 gap-6 pt-6">
                 <div class="col-span-full">
@@ -203,13 +215,14 @@ watch(
                 </div>
             </div>
             <div class="pt-10 grid gap-y-6">
-                <div>
+                <div :class="{ 'opacity-70': form.invoice.id }">
                     <InputLabel for="invoice_date" value="Invoice Date" />
                     <TextInput
                         id="invoice_date"
                         type="date"
                         class="mt-1 block w-full"
                         v-model="form.invoice.invoice_date"
+                        :disabled="form.invoice.id"
                     />
                     <InputError
                         class="mt-2"
@@ -330,29 +343,46 @@ watch(
                 <p>Add New Item</p>
             </button>
             <div
-                class="h-24 mt-20 -mx-6 shadow-lg px-6 flex justify-center gap-2 items-center"
+                class="h-24 mt-20 -mx-6 shadow-lg px-6 flex justify-end gap-2 items-center"
             >
-                <button
-                    type="button"
-                    class="bg-light-gray h-12 rounded-full text-gray font-bold px-4"
-                    @click="emitter.emit('close')"
-                >
-                    Discard
-                </button>
-                <button
-                    type="submit"
-                    class="bg-blue h-12 rounded-full text-gray font-bold px-4"
-                    @click="form.invoice.status = 0"
-                >
-                    Save as Draft
-                </button>
-                <button
-                    type="submit"
-                    class="bg-purple rounded-full h-12 text-white font-bold flex items-center px-4 gap-2"
-                    @click="form.invoice.status = 1"
-                >
-                    Save
-                </button>
+                <template v-if="form.invoice.invoice_id">
+                    <button
+                        type="button"
+                        class="bg-light-gray h-12 rounded-full text-gray font-bold px-4"
+                        @click="emitter.emit('close')"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        class="bg-purple rounded-full h-12 text-white font-bold flex items-center px-4 gap-2"
+                    >
+                        Save Changes
+                    </button>
+                </template>
+                <template v-else>
+                    <button
+                        type="button"
+                        class="bg-light-gray h-12 rounded-full text-gray font-bold px-4"
+                        @click="emitter.emit('close')"
+                    >
+                        Discard
+                    </button>
+                    <button
+                        type="submit"
+                        class="bg-blue h-12 rounded-full text-gray font-bold px-4"
+                        @click="form.invoice.status = 0"
+                    >
+                        Save as Draft
+                    </button>
+                    <button
+                        type="submit"
+                        class="bg-purple rounded-full h-12 text-white font-bold flex items-center px-4 gap-2"
+                        @click="form.invoice.status = 1"
+                    >
+                        Save
+                    </button>
+                </template>
             </div>
         </form>
     </aside>
