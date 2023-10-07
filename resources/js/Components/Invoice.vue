@@ -25,7 +25,12 @@ const emitter = inject('emitter')
             </p>
         </div>
         <div class="grid grid-cols-2 grid-rows-2 items-center pt-6">
-            <p class="text-light-blue text-sm text-left">Due 19 Aug 2021</p>
+            <p class="text-light-blue text-sm text-left">
+                <template v-if="invoice.formatted_invoice_date">
+                    Due {{ invoice.formatted_invoice_date }}
+                </template>
+                <template v-else>Due date not set</template>
+            </p>
             <div class="text-right row-span-2">
                 <InvoiceStatus :status="invoice.status" />
             </div>

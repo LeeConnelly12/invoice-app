@@ -29,6 +29,7 @@ class InvoiceResource extends JsonResource
             'client_postcode' => $this->client_postcode,
             'client_country' => $this->client_country,
             'invoice_date' => $this->invoice_date?->toDateString(),
+            'formatted_invoice_date' => optional($this->invoice_date)->format('d M Y'),
             'items' => InvoiceItemResource::collection($this->whenLoaded('items')),
         ];
     }
