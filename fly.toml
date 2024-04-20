@@ -13,6 +13,7 @@ console_command = 'php /var/www/html/artisan tinker'
     PHP_VERSION = '8.3'
 
 [env]
+  APP_URL = "https://the-invoicing-app.fly.dev"
   APP_ENV = 'production'
   LOG_CHANNEL = 'stderr'
   LOG_LEVEL = 'info'
@@ -28,7 +29,7 @@ console_command = 'php /var/www/html/artisan tinker'
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = false
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
@@ -37,3 +38,6 @@ console_command = 'php /var/www/html/artisan tinker'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+
+[deploy]
+  release_command = "php /var/www/html/artisan migrate --force"
