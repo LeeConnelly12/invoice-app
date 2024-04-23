@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\DraftInvoiceController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MarkInvoiceAsPaidController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -13,6 +16,34 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/invoices', [InvoiceController::class, 'index'])
+    ->name('invoices')
+    ->middleware('auth');
+
+Route::post('/invoices', [InvoiceController::class, 'store'])
+    ->name('invoices.store')
+    ->middleware('auth');
+
+Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])
+    ->name('invoices.show')
+    ->middleware('auth');
+
+Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])
+    ->name('invoices.update')
+    ->middleware('auth');
+
+Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])
+    ->name('invoices.destroy')
+    ->middleware('auth');
+
+Route::post('/draft-invoices', [DraftInvoiceController::class, 'store'])
+    ->name('draft-invoices.store')
+    ->middleware('auth');
+
+Route::put('/invoices/{invoice}/mark-as-paid', MarkInvoiceAsPaidController::class)
+    ->name('invoices.mark-as-paid')
+    ->middleware('auth');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
