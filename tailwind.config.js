@@ -12,6 +12,26 @@ export default {
 
   theme: {
     extend: {
+      colors: {
+        blue: {
+          500: '#7E88C3',
+          800: '#252945',
+        },
+        gray: {
+          100: '#F8F8FB',
+          400: '#DFE3FA',
+          500: '#888EB0',
+          900: '#1E2139',
+        },
+        purple: {
+          400: '#9277FF',
+          500: '#7C5DFA',
+        },
+        red: {
+          400: '#9277FF',
+          500: '#EC5757',
+        },
+      },
       fontFamily: {
         sans: ['League Spartan', ...defaultTheme.fontFamily.sans],
       },
