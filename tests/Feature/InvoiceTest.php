@@ -17,7 +17,7 @@ test('invoices page can be viewed', function () {
     Invoice::factory()->count(3)->create();
 
     actingAs($this->user)
-        ->get('/invoices')
+        ->get('/')
         ->assertInertia(fn (Assert $page) => $page
             ->component('Invoices/Index')
             ->has('invoices', 3)
@@ -98,7 +98,7 @@ test('an invoice can be deleted', function () {
 
     actingAs($this->user)
         ->delete('/invoices/'.$invoice->id)
-        ->assertRedirect('/invoices');
+        ->assertRedirect('/');
 
     assertModelMissing($invoice);
 });
