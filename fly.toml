@@ -15,6 +15,9 @@ console_command = 'php /var/www/html/artisan tinker'
 [env]
   APP_URL = "https://the-invoicing-app.fly.dev"
   APP_ENV = 'production'
+  DB_CONNECTION = "mysql"
+  DB_HOST = "invoice-app-db.internal"
+  DB_DATABASE= "some_db"
   LOG_CHANNEL = 'stderr'
   LOG_LEVEL = 'info'
   LOG_STDERR_FORMATTER = 'Monolog\Formatter\JsonFormatter'
